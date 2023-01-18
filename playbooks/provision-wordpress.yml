@@ -1,4 +1,4 @@
-- name: 'Provision mysqldb'
+- name: 'Provision wordpress'
   hosts: localhost
   become: true
 
@@ -66,7 +66,7 @@
       notify: Restart Apache
       tags: [ apache ]
 
- #UFW Configuration
+  #UFW Configuration
 
     - name: "UFW - Allow HTTP on port {{ http_port }}"
       ufw:
@@ -95,7 +95,6 @@
       tags: [ wordpress ]
 
     - name: Set permissions for directories
-
       shell: "/usr/bin/find /var/www/{{ http_host }}/wordpress/ -type d -exec chmod 750 {} \\;"
       tags: [ wordpress ]
 
