@@ -1,0 +1,61 @@
+name: Build Image
+
+on: 
+  workflow_call:
+    inputs:
+      resource_group:
+        type: string
+        required: true
+      image_name:
+        type: string
+        required: true
+      mysql_db:
+        type: string
+        required: true
+      mysql_user:
+        type: string
+        required: true
+      mysql_password:
+        type: string
+        required: true
+      mysql_host:
+        type: string
+        required: true
+      http_host:
+        type: string
+        required: true
+      http_conf:
+        type: string
+        required: true
+      http_port:
+        type: string
+        required: true
+
+jobs:
+  run_build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Packer Init
+      run: packer init .
+
+    - name: Packer Build
+      run: |
+        packer build `
+          -var client_id=${{ secrets.AZURE_CLIENT_ID }} `
+          -var client_secret=${{ secrets.AZURE_CLIENT_SECRET }} `
+          -var subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }} `
+          -var tenant_id=${{ secrets.AZURE_TENANT_ID }} `
+          -var resource_group=${{ inputs.resource_group }} `
+          -var image_name=${{ inputs.image_name }} `
+          -var mysql_db=${{ inputs.mysql_db }} `
+          -var mysql_user=${{ inputs.mysql_user }} `
+          -var mysql_password=${{ inputs.mysql_password }} `
+          -var mysql_host=${{ inputs.mysql_host }} `
+          -var http_host=${{ inputs.http_host }} `
+          -var http_conf=${{ inputs.http_conf }} `
+          -var http_port=${{ inputs.http_port }} `
+          .
