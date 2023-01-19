@@ -1,4 +1,4 @@
-source "azure-arm" "wordpress-mysql-image" {
+source "azure-arm" "ubuntu-server-22_04-lts" {
   azure_tags = {
     build_by = "packer"
   }
@@ -23,7 +23,7 @@ source "azure-arm" "wordpress-mysql-image" {
 
 build {
   sources = [
-    "source.azure-arm.wordpress-mysql-image"
+    "source.azure-arm.ubuntu-server-22_04-lts"
   ]
 
   provisioner "shell" {
@@ -34,6 +34,7 @@ build {
       "apt-get install ansible -y"
     ]
     inline_shebang = "/bin/sh -x"
+    only = ["azure-arm"]
   }
 
   provisioner "file" {
@@ -63,5 +64,6 @@ build {
     execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
     inline          = ["/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"]
     inline_shebang  = "/bin/sh -x"
+    only = ["azure-arm"]
   }
 }
