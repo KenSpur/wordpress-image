@@ -38,12 +38,12 @@ build {
   }
 
   provisioner "file" {
-    source      = "playbooks/files/apache.conf.j2"
+    source      = "files/apache.conf.j2"
     destination = "/tmp/apache.conf.j2"
   }
 
   provisioner "file" {
-    source      = "playbooks/files/wp-config.php.j2"
+    source      = "files/wp-config.php.j2"
     destination = "/tmp/wp-config.php.j2"
   }
 
