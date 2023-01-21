@@ -44,18 +44,18 @@ jobs:
 
     - name: Packer Build
       run: |
-        packer build `
-          -var client_id=${{ secrets.AZURE_CLIENT_ID }} `
-          -var client_secret=${{ secrets.AZURE_CLIENT_SECRET }} `
-          -var subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }} `
-          -var tenant_id=${{ secrets.AZURE_TENANT_ID }} `
-          -var resource_group=${{ inputs.resource_group }} `
-          -var image_name=${{ inputs.image_name }} `
-          -var mysql_db=${{ inputs.mysql_db }} `
-          -var mysql_user=${{ inputs.mysql_user }} `
-          -var mysql_password=${{ inputs.mysql_password }} `
-          -var mysql_host=${{ inputs.mysql_host }} `
-          -var http_host=${{ inputs.http_host }} `
-          -var http_conf=${{ inputs.http_conf }} `
-          -var http_port=${{ inputs.http_port }} `
+        packer build \
+          -var client_id=${{ secrets.AZURE_CLIENT_ID }} \
+          -var client_secret=${{ secrets.AZURE_CLIENT_SECRET }} \
+          -var subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }} \
+          -var tenant_id=${{ secrets.AZURE_TENANT_ID }} \
+          -var resource_group=${{ inputs.resource_group }} \
+          -var image_name=${{ inputs.image_name }} \
+          -var mysql_db=${{ inputs.mysql_db }} \
+          -var mysql_user=${{ inputs.mysql_user }} \
+          -var mysql_password=${{ inputs.mysql_password }} \
+          -var mysql_host=${{ inputs.mysql_host }} \
+          -var http_host=${{ inputs.http_host }} \
+          -var http_conf=${{ inputs.http_conf }} \
+          -var http_port=${{ inputs.http_port }} \
           .
