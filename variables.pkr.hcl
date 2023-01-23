@@ -1,24 +1,29 @@
 # Azure Credentials
 variable "client_id" {
   type      = string
+  default   = ""
   sensitive = true
 }
 variable "client_secret" {
   type      = string
+  default   = ""
   sensitive = true
 }
 
 # Azure Subscription
 variable "tenant_id" {
   type = string
+  default   = ""
 }
 variable "subscription_id" {
   type = string
+  default   = ""
 }
 
 # Azure Resource Group
 variable "resource_group" {
   type = string
+  default   = ""
 }
 variable "image_name" {
   type    = string
@@ -40,10 +45,12 @@ variable "mysql_user" {
 }
 variable "mysql_password" {
   type      = string
+  default   = ""
   sensitive = true
 }
 variable "mysql_host" {
   type = string
+  default   = ""
 }
 
 # Http Settings
@@ -58,4 +65,31 @@ variable "http_conf" {
 variable "http_port" {
   type    = string
   default = "80"
+}
+
+# Proxmox Variables
+variable "proxmox_api_url" {
+  type    = string
+  default = ""
+}
+
+variable "proxmox_api_token_id" {
+  type    = string
+  default = ""
+}
+
+variable "proxmox_api_token_secret" {
+  type      = string
+  default   = ""
+  sensitive = true
+}
+
+variable "proxmox_node" {
+  type    = string
+  default = "pve"
+}
+
+variable "ssh_username" {
+  type    = string
+  default = "root"
 }
