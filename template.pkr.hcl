@@ -45,23 +45,26 @@ build {
     "source.proxmox-clone.ubuntu-server-22-04-lts"
   ]
 
+  # wait for cloud-init to finish
   provisioner "shell" {
+    inline_shebang  = "/bin/sh -x"
     inline = [
       "while ! cloud-init status | grep -q 'done'; do echo 'Waiting for cloud-init...'; sleep 5s; done"
     ]
     only = ["proxmox-clone.ubuntu-server-22-04-lts"]
   }
 
+  # update and install ansible
   provisioner "shell" {
-    execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
+    inline_shebang  = "/bin/sh -x"
     inline = [
       "apt-get update",
       "apt-get upgrade -y",
       "apt-get install ansible -y"
     ]
-    inline_shebang = "/bin/sh -x"
   }
 
+  # copy files to remote
   provisioner "file" {
     source      = "files/apache.conf.j2"
     destination = "/tmp/apache.conf.j2"
@@ -72,6 +75,7 @@ build {
     destination = "/tmp/wp-config.php.j2"
   }
 
+  # run ansible playbook
   provisioner "ansible-local" {
     playbook_file = "./playbooks/provision-wordpress.yml"
     extra_arguments = [
@@ -87,12 +91,15 @@ build {
 
   # cleanups
   provisioner "shell" {
+    inline_shebang  = "/bin/sh -x"
     inline = [
       "sudo apt-get purge ansible -y"
     ]
   }
 
+  # proxmox cleanup
   provisioner "shell" {
+    inline_shebang  = "/bin/sh -x"
     inline = [
       "sudo rm /etc/ssh/ssh_host_*",
       "sudo truncate -s 0 /etc/machine-id",
@@ -106,10 +113,11 @@ build {
     only = ["proxmox-clone.ubuntu-server-22-04-lts"]
   }
 
+  # azure cleanup
   provisioner "shell" {
     execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
-    inline          = ["/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"]
     inline_shebang  = "/bin/sh -x"
+    inline          = ["/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"]
     only = ["azure-arm.ubuntu-server-22_04-lts"]
   }
 }
