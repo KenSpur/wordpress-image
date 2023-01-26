@@ -1,15 +1,3 @@
-# Azure Credentials
-variable "client_id" {
-  type      = string
-  default   = ""
-  sensitive = true
-}
-variable "client_secret" {
-  type      = string
-  default   = ""
-  sensitive = true
-}
-
 # Azure Subscription
 variable "tenant_id" {
   type = string
@@ -45,7 +33,7 @@ variable "mysql_user" {
 }
 variable "mysql_password" {
   type      = string
-  default   = ""
+  default   = "wordpress"
   sensitive = true
 }
 variable "mysql_host" {

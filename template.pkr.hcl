@@ -3,8 +3,8 @@ source "azure-arm" "ubuntu-server-22_04-lts" {
     build_by = "packer"
   }
 
-  client_id       = "${var.client_id}"
-  client_secret   = "${var.client_secret}"
+  use_azure_cli_auth =  true
+
   tenant_id       = "${var.tenant_id}"
   subscription_id = "${var.subscription_id}"
 
@@ -58,9 +58,9 @@ build {
   provisioner "shell" {
     inline_shebang  = "/bin/sh -x"
     inline = [
-      "apt-get update",
-      "apt-get upgrade -y",
-      "apt-get install ansible -y"
+      "sudo apt-get update",
+      "sudo apt-get upgrade -y",
+      "sudo apt-get install ansible -y"
     ]
   }
 
