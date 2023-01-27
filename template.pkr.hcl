@@ -3,12 +3,17 @@ source "azure-arm" "ubuntu-server-22_04-lts" {
     build_by = "packer"
   }
 
-  use_azure_cli_auth =  true
-
-  tenant_id       = "${var.tenant_id}"
-  subscription_id = "${var.subscription_id}"
+  use_azure_cli_auth = true
 
   location = "${var.location}"
+
+  shared_image_gallery_destination {
+    gallery_name        = "${var.gallery_name}"
+    resource_group      = "${var.resource_group}"
+    image_name          = "${var.image_name}"
+    image_version       = "${var.image_version}"
+    replication_regions = var.replication_regions
+  }
 
   managed_image_resource_group_name = "${var.resource_group}"
   managed_image_name                = "${var.image_name}"
@@ -47,7 +52,7 @@ build {
 
   # wait for cloud-init to finish
   provisioner "shell" {
-    inline_shebang  = "/bin/sh -x"
+    inline_shebang = "/bin/sh -x"
     inline = [
       "while ! cloud-init status | grep -q 'done'; do echo 'Waiting for cloud-init...'; sleep 5s; done"
     ]
@@ -56,7 +61,7 @@ build {
 
   # update and install ansible
   provisioner "shell" {
-    inline_shebang  = "/bin/sh -x"
+    inline_shebang = "/bin/sh -x"
     inline = [
       "sudo apt-get update",
       "sudo apt-get upgrade -y",
@@ -91,7 +96,7 @@ build {
 
   # cleanups
   provisioner "shell" {
-    inline_shebang  = "/bin/sh -x"
+    inline_shebang = "/bin/sh -x"
     inline = [
       "sudo apt-get purge ansible -y"
     ]
@@ -99,7 +104,7 @@ build {
 
   # proxmox cleanup
   provisioner "shell" {
-    inline_shebang  = "/bin/sh -x"
+    inline_shebang = "/bin/sh -x"
     inline = [
       "sudo rm /etc/ssh/ssh_host_*",
       "sudo truncate -s 0 /etc/machine-id",
@@ -118,6 +123,6 @@ build {
     execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
     inline_shebang  = "/bin/sh -x"
     inline          = ["/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"]
-    only = ["azure-arm.ubuntu-server-22_04-lts"]
+    only            = ["azure-arm.ubuntu-server-22_04-lts"]
   }
 }
