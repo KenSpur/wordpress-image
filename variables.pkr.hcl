@@ -48,20 +48,6 @@ variable "mysql_host" {
   default = ""
 }
 
-# Http Settings
-variable "http_host" {
-  type    = string
-  default = "your_domain"
-}
-variable "http_conf" {
-  type    = string
-  default = "your_domain.conf"
-}
-variable "http_port" {
-  type    = string
-  default = "80"
-}
-
 # Proxmox Variables
 variable "proxmox_api_url" {
   type    = string

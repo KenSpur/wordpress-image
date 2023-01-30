@@ -71,11 +71,6 @@ build {
 
   # copy files to remote
   provisioner "file" {
-    source      = "files/apache.conf.j2"
-    destination = "/tmp/apache.conf.j2"
-  }
-
-  provisioner "file" {
     source      = "files/wp-config.php.j2"
     destination = "/tmp/wp-config.php.j2"
   }
@@ -87,10 +82,7 @@ build {
       "-e", "mysql_db=${var.mysql_db}",
       "-e", "mysql_user=${var.mysql_user}",
       "-e", "mysql_password=${var.mysql_password}",
-      "-e", "mysql_host=${var.mysql_host}",
-      "-e", "http_host=${var.http_host}",
-      "-e", "http_conf=${var.http_conf}",
-      "-e", "http_port=${var.http_port}"
+      "-e", "mysql_host=${var.mysql_host}"
     ]
   }
 

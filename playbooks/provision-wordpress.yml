@@ -35,86 +35,42 @@
 
   # Apache Configuration
 
-    - name: Create document root
+    - name: Remove default index.html
       file:
-        path: "/var/www/{{ http_host }}"
-        state: directory
-        owner: "www-data"
-        group: "www-data"
-        mode: '0755'
+        path: "/var/www/html/index.html"
+        state: absent
       tags: [ apache ]
-
-    - name: Set up Apache VirtualHost
-      template:
-        src: "/tmp/apache.conf.j2"
-        dest: "/etc/apache2/sites-available/{{ http_conf }}"
-      notify: Reload Apache
-      tags: [ apache ]
-
-    - name: Enable rewrite module
-      shell: /usr/sbin/a2enmod rewrite
-      notify: Reload Apache
-      tags: [ apache ]
-
-    - name: Enable new site
-      shell: /usr/sbin/a2ensite {{ http_conf }}
-      notify: Reload Apache
-      tags: [ apache ]
-
-    - name: Disable default Apache site
-      shell: /usr/sbin/a2dissite 000-default.conf
-      notify: Restart Apache
-      tags: [ apache ]
-
-  #UFW Configuration
-
-    - name: "UFW - Allow HTTP on port {{ http_port }}"
-      ufw:
-        rule: allow
-        port: "{{ http_port }}"
-        proto: tcp
-      tags: [ system ]
-
+    
   # WordPress Configuration
-
+  
     - name: Download and unpack latest WordPress
       unarchive:
         src: https://wordpress.org/latest.tar.gz
-        dest: "/var/www/{{ http_host }}"
+        dest: "/var/www/html"
         remote_src: yes
-        creates: "/var/www/{{ http_host }}/wordpress"
+      tags: [ wordpress ]
+
+    - name: Move files
+      shell: "/bin/mv /var/www/html/wordpress/* /var/www/html/"
+      tags: [ wordpress ]
+
+    - name: Remove wordpress directory
+      file:
+        path: "/var/www/html/wordpress"
+        state: absent
       tags: [ wordpress ]
 
     - name: Set ownership
       file:
-        path: "/var/www/{{ http_host }}"
+        path: "/var/www/html"
         state: directory
         recurse: yes
         owner: www-data
         group: www-data
       tags: [ wordpress ]
 
-    - name: Set permissions for directories
-      shell: "/usr/bin/find /var/www/{{ http_host }}/wordpress/ -type d -exec chmod 750 {} \\;"
-      tags: [ wordpress ]
-
-    - name: Set permissions for files
-      shell: "/usr/bin/find /var/www/{{ http_host }}/wordpress/ -type f -exec chmod 640 {} \\;"
-      tags: [ wordpress ]
-
     - name: Set up wp-config
       template:
         src: "/tmp/wp-config.php.j2"
-        dest: "/var/www/{{ http_host }}/wordpress/wp-config.php"
+        dest: "/var/www/html/wp-config.php"
       tags: [ wordpress ]
-
-  handlers:
-    - name: Reload Apache
-      service:
-        name: apache2
-        state: reloaded
-
-    - name: Restart Apache
-      service:
-        name: apache2
-        state: restarted
