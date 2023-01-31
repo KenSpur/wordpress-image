@@ -40,6 +40,14 @@
         path: "/var/www/html/index.html"
         state: absent
       tags: [ apache ]
+
+    - name: Set up Apache VirtualHost
+      template:
+        src: "/tmp/apache2.conf.j2"
+        dest: "/etc/apache2/apache2.conf"
+        force: yes
+      notify: Reload Apache
+      tags: [ apache ] 
     
   # WordPress Configuration
   
@@ -74,3 +82,14 @@
         src: "/tmp/wp-config.php.j2"
         dest: "/var/www/html/wp-config.php"
       tags: [ wordpress ]
+
+  handlers:
+    - name: Reload Apache
+      service:
+        name: apache2
+        state: reloaded
+
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted

@@ -71,6 +71,11 @@ build {
 
   # copy files to remote
   provisioner "file" {
+    source      = "files/apache2.conf.j2"
+    destination = "/tmp/apache2.conf.j2"
+  }
+
+  provisioner "file" {
     source      = "files/wp-config.php.j2"
     destination = "/tmp/wp-config.php.j2"
   }
