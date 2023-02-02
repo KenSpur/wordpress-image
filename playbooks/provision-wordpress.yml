@@ -11,8 +11,6 @@
       apt:
         pkg:
           - apache2
-          - mysql-server
-          - python3-pymysql
           - php
           - php-mysql
           - libapache2-mod-php
@@ -21,7 +19,7 @@
 
     - name: Install PHP Extensions
       apt:
-        pkg:
+        pkg:      
           - php-curl 
           - php-gd
           - php-mbstring 
