@@ -6,4 +6,3 @@
 
 ## 🎯 Targets
 - [Azure](https://portal.azure.com/) Cloud computing platform
-- [Proxmox](https://www.proxmox.com/en/proxmox-ve) Software server for virtualization management
