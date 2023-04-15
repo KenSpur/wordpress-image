@@ -29,12 +29,13 @@
 	// "remoteUser": "root"
 
 	"containerEnv": {
-		"PKR_VAR_resource_group": "${localEnv:PKR_VAR_resource_group}",
-		"PKR_VAR_gallery_name": "${localEnv:PKR_VAR_gallery_name}",
-		"PKR_VAR_image_name": "${localEnv:PKR_VAR_image_nam}",
-		"PKR_VAR_mysql_db": "${localEnv:PKR_VAR_mysql_db}",
-		"PKR_VAR_mysql_user": "${localEnv:PKR_VAR_mysql_user}",
-		"PKR_VAR_mysql_password": "${localEnv:PKR_VAR_mysql_password}",
-		"PKR_VAR_mysql_host": "${localEnv:PKR_VAR_mysql_host}"
+		"subscription_id": "${localEnv:SUBSCRIPTION_ID}",
+		"PKR_VAR_resource_group": "${localEnv:RESOURCE_GROUP}",
+		"PKR_VAR_gallery_name": "${localEnv:GALLERY_NAME}",
+		"PKR_VAR_image_name": "${localEnv:IMAGE_NAME}",
+		"PKR_VAR_mysql_db": "${localEnv:MYSQL_DB}",
+		"PKR_VAR_mysql_user": "${localEnv:MYSQL_USER}",
+		"PKR_VAR_mysql_password": "${localEnv:MYSQL_PASSWORD}",
+		"PKR_VAR_mysql_host": "${localEnv:MYSQL_HOST}"
 	}
 }
