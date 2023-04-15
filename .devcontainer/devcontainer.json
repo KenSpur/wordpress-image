@@ -19,7 +19,7 @@
 		"vscode": {
 			"extensions": [
 				"GitHub.copilot",
-				"vscoss.vscode-ansible",
+				"redhat.ansible",
 				"hashicorp.hcl"
 			]
 		}
