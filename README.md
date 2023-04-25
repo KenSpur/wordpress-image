@@ -8,3 +8,18 @@
 
 ## 🎯 Targets
 - [Azure](https://portal.azure.com/) Cloud computing platform
+
+## 🫳 Usage
+
+### ⌨️ Log in
+
+```shell
+az login
+az account set -s $subscription_id
+```
+
+### 📦 Build
+
+```shell
+packer build .
+```
